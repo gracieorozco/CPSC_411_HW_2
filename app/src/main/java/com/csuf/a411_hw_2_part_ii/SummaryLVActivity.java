@@ -1,48 +1,41 @@
 package com.csuf.a411_hw_2_part_ii;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.csuf.a411_hw_2_part_ii.adapter.SummaryListAdapter;
+import com.csuf.a411_hw_2_part_ii.model.Course;
 import com.csuf.a411_hw_2_part_ii.model.Student;
 import com.csuf.a411_hw_2_part_ii.model.StudentDB;
-import com.csuf.a411_hw_2_part_ii.model.Course;
 
 import java.util.ArrayList;
 
-public class SummaryLVActivity extends Activity {
+public class SummaryLVActivity extends AppCompatActivity {
 
     protected Menu detailMenu;
     protected ListView mSummaryView;
     protected SummaryListAdapter ad;
+    protected boolean existing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.person_list_lv);
-        createStudentObjects();
         mSummaryView = findViewById(R.id.summary_list_id);
-        ad = new SummaryListAdapter();
-        mSummaryView.setAdapter(ad);
-    }
-
-    public void addCourse() {
-        Button btn = findViewById(R.id.add_course_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                View list = findViewById(R.id.course_list_id);
-
-            }
-        });
+        existing = getIntent().getBooleanExtra("flag", false);
+        if (!existing) {
+            createStudentObjects();
+            existing = true;
+            ad = new SummaryListAdapter();
+            mSummaryView.setAdapter(ad);
+        } else {
+            ad = new SummaryListAdapter();
+            mSummaryView.setAdapter(ad);
+        }
     }
 
     protected void createStudentObjects() {
@@ -75,10 +68,9 @@ public class SummaryLVActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(getApplicationContext(), PersonDetailsActivity.class);
+        intent.putExtra("flag", existing);
         startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
-
-
 
 }

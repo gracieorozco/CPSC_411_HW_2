@@ -1,6 +1,5 @@
 package com.csuf.a411_hw_2_part_ii.model;
 
-
 import java.util.ArrayList;
 
 public class Student {
@@ -46,6 +45,11 @@ public class Student {
 
     public ArrayList<Course> getCourses() {
         return mCourses;
+    }
+
+    public Course getCourse(int i) {
+        ArrayList<Course> c = getCourses();
+        return c.get(i);
     }
 
     public void setCourses(ArrayList<Course> courses) {

@@ -13,15 +13,20 @@ import com.csuf.a411_hw_2_part_ii.R;
 import com.csuf.a411_hw_2_part_ii.model.Student;
 import com.csuf.a411_hw_2_part_ii.model.StudentDB;
 
+import java.util.ArrayList;
+
 public class SummaryListAdapter extends BaseAdapter {
+    ArrayList<Student> mStudentList;
+    StudentDB mStudentDB;
+
     @Override
     public int getCount() {
-        return StudentDB.getInstance().getStudentList().size();
+        return mStudentDB.getInstance().getStudentList().size();
     }
 
     @Override
     public Object getItem(int i) {
-        return StudentDB.getInstance().getStudentList().get(i);
+        return mStudentDB.getInstance().getStudentList().get(i);
     }
 
     @Override
@@ -39,7 +44,11 @@ public class SummaryListAdapter extends BaseAdapter {
         Student s = StudentDB.getInstance().getStudentList().get(i);
         ((TextView) row_view.findViewById(R.id.first_name)).setText(s.getFirstName() + " ");
         ((TextView) row_view.findViewById(R.id.last_name)).setText(s.getLastName() + " ");
-        ((TextView) row_view.findViewById(R.id.cwid)).setText(String.valueOf(s.getCWID()));
+        ((TextView) row_view.findViewById(R.id.cwid)).setText("ID: " + s.getCWID() + " ");
+        if (s.getCourses() != null) {
+            ((TextView) row_view.findViewById(R.id.c_id_display)).setText("Course: " + s.getCourse(0).getCID() + " ");
+            ((TextView) row_view.findViewById(R.id.c_grade_display)).setText("Grade: " + s.getCourse(0).getGrade() + " ");
+        }
         row_view.setTag(new Integer(i));
         row_view.setOnClickListener(
                 new View.OnClickListener() {
